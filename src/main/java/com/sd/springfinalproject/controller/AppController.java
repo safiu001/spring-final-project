@@ -9,7 +9,12 @@ import com.sd.springfinalproject.service.UsersService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.naming.Binding;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -17,7 +22,8 @@ import java.util.List;
 public class AppController {
     private MovieListService movieListService;
     private UsersService usersService;
-    private final static String movieList = "/app/movieList";
+    private static final String MOVIE_LIST = "/app/movieList";
+    private static final String MOVIE_FORM = "movie-form";
 
     public AppController(MovieListService movieListService, UsersService usersService){
         this.movieListService = movieListService;
@@ -47,19 +53,23 @@ public class AppController {
     @GetMapping("/addMovie")
     public String addMovie(Model model){
         model.addAttribute("movie", new MovieDto());
-        return "movie-form";
+        return MOVIE_FORM;
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("movie") MovieDto movie){
-        movieListService.save(movie);
-        return "redirect:"+movieList;
+    public String save(@Valid @ModelAttribute("movie") MovieDto movie, Errors errors){
+        if(null != errors && errors.getErrorCount() > 0){
+            return MOVIE_FORM;
+        }else{
+            movieListService.save(movie);
+            return "redirect:"+MOVIE_LIST;
+        }
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("movieId") int movieId){
         movieListService.deleteById(movieId);
-        return "redirect:"+movieList;
+        return "redirect:"+MOVIE_LIST;
     }
 
     @GetMapping("/showUpdateForm")
@@ -72,7 +82,7 @@ public class AppController {
         movieDto.setName(movie.getName());
         model.addAttribute("movie", movieDto);
 
-        return "movie-form";
+        return MOVIE_FORM;
     }
 
     @GetMapping("/myList")
@@ -81,6 +91,11 @@ public class AppController {
         Users user = usersService.findByUsername(username);
 
         List<MovieList> myMovies = user.getMovies();
+
+//        if(myMovies == null || myMovies.isEmpty()){
+//            return ""
+//        }
+
         model.addAttribute("movies", myMovies);
         return "my-list";
     }

@@ -20,7 +20,7 @@ public class AuthoritiesServiceImpl implements AuthoritiesService{
 
         if(optional.isPresent()){
             auth = optional.get();
-        }else{throw new RuntimeException("error while loading the data from id "+id);}
+        }else{throw new IdNotFoundException("error while loading the data from id "+id);}
         return auth;
     }
 

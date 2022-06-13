@@ -24,7 +24,7 @@ public class UsersServiceImpl implements UsersService{
         if(optionalUsers.isPresent()){
             user = optionalUsers.get();
         }else{
-            throw new RuntimeException("user not found! "+id);
+            throw new IdNotFoundException("user not found! "+id);
         }
         return user;
     }

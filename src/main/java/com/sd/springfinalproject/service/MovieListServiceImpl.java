@@ -21,7 +21,7 @@ public class MovieListServiceImpl implements MovieListService{
         MovieList movieList = null;
         if(optionalMovieList.isPresent()){
             movieList = optionalMovieList.get();
-        }else{throw new RuntimeException("The Movie is not found "+id);}
+        }else{throw new IdNotFoundException("The Movie is not found "+id);}
         return movieList;
     }
 
