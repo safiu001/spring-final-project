@@ -31,10 +31,10 @@
             <td>
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
                     <a th:href="@{/app/showUpdateForm(movieId = ${movie.id})}" class="btn btn-info btn-sm"> Update </a>
-                    <a th:href="@{/app/delete(movieId = ${movie.id})}" class="btn btn-danger btn-sm" onclick="confirm('Are you sure you want to delete this movie form movie list?')"> Delete </a>
+                    <a th:href="@{/app/delete(movieId = ${movie.id})}" class="btn btn-danger btn-sm" onclick="if(!(confirm('Are you sure you want to delete this movie form your list?'))) return false"> Delete </a>
                     <br><br>
                 </div>
-                <a th:href="@{/app/addToMyList(movieId = ${movie.id})}" class="btn btn-success btn-sm" onclick="confirm('Are you sure you want to delete this movie form movie list?')"> Add to My List </a>
+                <a th:href="@{/app/addToMyList(movieId = ${movie.id})}" class="btn btn-success btn-sm" onclick="if(!(confirm('Are you sure you want to delete this movie form your list?'))) return false"> Add to My List </a>
             </td>
         </tr>
         </tbody>

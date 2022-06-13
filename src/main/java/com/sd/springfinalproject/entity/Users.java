@@ -37,6 +37,16 @@ public class Users {
     public Users() {
     }
 
+    public Users(int id, String username, String password, boolean enabled, String firstName, String lastName, List<MovieList> movies) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.movies = movies;
+    }
+
     public Users(String username, String password, boolean enabled, String firstName, String lastName) {
         this.username = username;
         this.password = password;

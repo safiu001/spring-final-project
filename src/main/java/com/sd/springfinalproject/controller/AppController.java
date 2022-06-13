@@ -5,13 +5,10 @@ import com.sd.springfinalproject.entity.MovieList;
 import com.sd.springfinalproject.entity.Users;
 import com.sd.springfinalproject.service.MovieListService;
 import com.sd.springfinalproject.service.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -68,8 +65,8 @@ public class AppController {
     }
 
     @GetMapping("/myList")
-    public String myList(Model model, Principal principal){
-        String username = principal.getName();
+    public String myList(Model model){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Users user = usersService.findByUsername(username);
 
         List<MovieList> myMovies = user.getMovies();
@@ -78,18 +75,18 @@ public class AppController {
     }
 
     @GetMapping("/addToMyList")
-    public String addToMyList(@RequestParam("movieId") int movieId, Principal principal){
-        String username = principal.getName();
+    public String addToMyList(@RequestParam("movieId") int movieId){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Users user = usersService.findByUsername(username);
         MovieList movie = movieListService.findById(movieId);
         user.add(movie);
         usersService.save(user);
-        return "redirect:"+movieList;
+        return "redirect:/app/myList";
     }
 
     @GetMapping("/deleteFromMyList")
-    public String deleteFromMyList(@RequestParam("movieId") int movieId, Principal principal){
-        String username = principal.getName();
+    public String deleteFromMyList(@RequestParam("movieId") int movieId){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Users user = usersService.findByUsername(username);
         List<MovieList> movies = user.getMovies();
         MovieList movie = movieListService.findById(movieId);

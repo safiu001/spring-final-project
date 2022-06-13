@@ -23,6 +23,13 @@ public class Authorities {
     public Authorities() {
     }
 
+    public Authorities(int authId, String authority, Users user, String username) {
+        this.authId = authId;
+        this.authority = authority;
+        this.user = user;
+        this.username = username;
+    }
+
     public Authorities(String authority, Users user, String username) {
         this.authority = authority;
         this.user = user;

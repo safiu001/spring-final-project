@@ -7,7 +7,7 @@ USE `spring_final`;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `id` numeric NOT NULL auto_increment,
+  `id` int NOT NULL auto_increment,
   `username` varchar(50) NOT NULL,
   `password` char(68) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `users` (
 
 DROP TABLE IF EXISTS `authorities`;
 CREATE TABLE `authorities` (
-  `auth_id` numeric NOT NULL auto_increment,
+  `auth_id` int NOT NULL auto_increment,
   `username` varchar(20) NOT NULL,
   `authority` varchar(50) NOT NULL,
   UNIQUE KEY `authorities_idx_1` (`username`,`authority`),
@@ -59,7 +59,7 @@ CREATE TABLE `movie_list` (
 -- customer's list of selected movies
 DROP TABLE IF EXISTS `customer_list`;
 CREATE TABLE `customer_list` (
-	`user_id` numeric NOT NULL,
+	`user_id` int NOT NULL,
     `movie_id` varchar(20) NOT NULL,
     constraint `cutomer_list_pk` primary key(`movie_id`, `user_id`),
     constraint `username_fk` foreign key(`user_id`) references `users` (`id`),

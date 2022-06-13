@@ -6,7 +6,6 @@ import com.sd.springfinalproject.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +20,7 @@ public class UsersServiceImpl implements UsersService{
     @Override
     public Users findById(int id) {
         Optional<Users> optionalUsers = usersRepository.findById(id);
-
         Users user = null;
-
         if(optionalUsers.isPresent()){
             user = optionalUsers.get();
         }else{

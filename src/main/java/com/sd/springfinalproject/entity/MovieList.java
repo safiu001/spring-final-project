@@ -30,6 +30,14 @@ public class MovieList {
     public MovieList() {
     }
 
+    public MovieList(int id, String name, String description, String category, List<Users> users) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.users = users;
+    }
+
     public MovieList(String name, String description, String category) {
         this.name = name;
         this.description = description;

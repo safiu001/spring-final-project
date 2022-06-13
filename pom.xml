@@ -15,6 +15,15 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<sonar.organization>safiu001</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.sources>src/main/java</sonar.sources>
+		<sonar.language>java</sonar.language>
+		<sonar.exclusions>
+			**/com/sd/springfinalproject/dao/**,
+			**/com/sd/springfinalproject/entity/**,
+			**/com/sd/springfinalproject/SpringFinalProjectApplication**
+		</sonar.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -67,7 +76,12 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
