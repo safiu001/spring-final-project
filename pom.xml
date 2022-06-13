@@ -20,9 +20,8 @@
 		<sonar.sources>src/main/java</sonar.sources>
 		<sonar.language>java</sonar.language>
 		<sonar.exclusions>
-			**/com/sd/springfinalproject/dao/**,
-			**/com/sd/springfinalproject/entity/**,
-			**/com/sd/springfinalproject/SpringFinalProjectApplication**
+			**/com/sd/springfinalproject/dto/**,
+			**/com/sd/springfinalproject/entity/**
 		</sonar.exclusions>
 	</properties>
 	<dependencies>
@@ -85,6 +84,26 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

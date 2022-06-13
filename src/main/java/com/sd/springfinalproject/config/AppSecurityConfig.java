@@ -19,9 +19,14 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource);
+        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -33,7 +38,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/customLoginForm")
                 .loginProcessingUrl("/authenticateTheUser")
-                .successForwardUrl("/app/home")
+                .successForwardUrl("/app/successLogin")
                 .permitAll()
                 .and()
                 .logout()

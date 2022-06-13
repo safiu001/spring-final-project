@@ -1,5 +1,6 @@
 package com.sd.springfinalproject.controller;
 
+import com.sd.springfinalproject.dto.MovieDto;
 import com.sd.springfinalproject.dto.UsersDto;
 import com.sd.springfinalproject.entity.MovieList;
 import com.sd.springfinalproject.entity.Users;
@@ -16,14 +17,19 @@ import java.util.List;
 public class AppController {
     private MovieListService movieListService;
     private UsersService usersService;
-    private final String movieList = "/app/movieList";
+    private final static String movieList = "/app/movieList";
 
     public AppController(MovieListService movieListService, UsersService usersService){
         this.movieListService = movieListService;
         this.usersService = usersService;
     }
 
-    @RequestMapping("/home")
+    @PostMapping("/successLogin")
+    public String successLogin(){
+        return "redirect:/app/home";
+    }
+
+    @GetMapping("/home")
     public String home(Model model){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         UsersDto user = usersService.getUsersDto(username);
@@ -40,12 +46,12 @@ public class AppController {
 
     @GetMapping("/addMovie")
     public String addMovie(Model model){
-        model.addAttribute("movie", new MovieList());
+        model.addAttribute("movie", new MovieDto());
         return "movie-form";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("movie") MovieList movie){
+    public String save(@ModelAttribute("movie") MovieDto movie){
         movieListService.save(movie);
         return "redirect:"+movieList;
     }
@@ -59,7 +65,12 @@ public class AppController {
     @GetMapping("/showUpdateForm")
     public String showUpdateForm(@RequestParam("movieId") int movieId, Model model){
         MovieList movie = movieListService.findById(movieId);
-        model.addAttribute("movie", movie);
+        MovieDto movieDto = new MovieDto();
+        movieDto.setId(movie.getId());
+        movieDto.setCategory(movie.getCategory());
+        movieDto.setDescription(movie.getDescription());
+        movieDto.setName(movie.getName());
+        model.addAttribute("movie", movieDto);
 
         return "movie-form";
     }

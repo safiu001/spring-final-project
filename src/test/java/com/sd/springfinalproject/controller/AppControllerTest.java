@@ -1,5 +1,6 @@
 package com.sd.springfinalproject.controller;
 
+import com.sd.springfinalproject.dto.MovieDto;
 import com.sd.springfinalproject.dto.UsersDto;
 import com.sd.springfinalproject.entity.Authorities;
 import com.sd.springfinalproject.entity.MovieList;
@@ -87,9 +88,16 @@ class AppControllerTest {
     @Test
     void save() throws Exception{
         String url = "/app/save";
-        MovieList movie = new MovieList(1, "Harry Potter and the Chambers Secret", "Harry on new Adventure", "Adventure", null);
+        MovieDto movie = new MovieDto("Harry Potter and the Chambers Secret", "Harry on new Adventure", "Adventure");
         mockMvc.perform(MockMvcRequestBuilders.post(url).flashAttr("movie", movie)).andExpect(status().is3xxRedirection());
+
         verify(movieListService, times(1)).save(movie);
+    }
+
+    @Test
+    void successLogin() throws Exception{
+        String url = "/app/successLogin";
+        mockMvc.perform(MockMvcRequestBuilders.post(url)).andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -161,5 +169,20 @@ class AppControllerTest {
                 .andExpect(status().is3xxRedirection());
 
         verify(usersService, times(1)).save(user);
+    }
+
+    @Test
+    @WithMockUser("andy")
+    void homePage() throws Exception {
+        UsersDto user = new UsersDto();
+        user.setUsername("andy");
+        user.setFirstName("Andy");
+        user.setLastName("Barnard");
+        user.setFullName("Andy Barnard");
+        user.setMessage("Hello");
+        given(usersService.getUsersDto("andy")).willReturn(user);
+
+        String url = "/app/home";
+        mockMvc.perform(MockMvcRequestBuilders.get(url).with(csrf())).andExpect(status().isOk());
     }
 }

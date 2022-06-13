@@ -1,7 +1,7 @@
 package com.sd.springfinalproject.service;
 
 import com.sd.springfinalproject.dao.MovieListRepository;
-import com.sd.springfinalproject.entity.Authorities;
+import com.sd.springfinalproject.dto.MovieDto;
 import com.sd.springfinalproject.entity.MovieList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
@@ -74,10 +75,10 @@ class MovieListServiceTest {
 
     @Test
     void save() {
-        MovieList movieList = new MovieList("Harry Potter", "Harry on new Adventure", "Adventure");
-        movieListService.save(movieList);
+        MovieDto movie = new MovieDto("Harry Potter", "Harry on new Adventure", "Adventure");
+        movieListService.save(movie);
 
-        verify(movieListRepository, times(1)).save(movieList);
+        verify(movieListRepository, times(1)).save(any());
     }
 
     @Test

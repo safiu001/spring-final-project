@@ -1,8 +1,8 @@
 package com.sd.springfinalproject.service;
 
 import com.sd.springfinalproject.dao.MovieListRepository;
+import com.sd.springfinalproject.dto.MovieDto;
 import com.sd.springfinalproject.entity.MovieList;
-import com.sd.springfinalproject.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +31,19 @@ public class MovieListServiceImpl implements MovieListService{
     }
 
     @Override
-    public void save(MovieList movie) {
-        movieListRepository.save(movie);
+    public void save(MovieDto movie) {
+        Optional<MovieList> optionalMovieList = movieListRepository.findById(movie.getId());
+        MovieList movieList = null;
+
+        if(optionalMovieList.isPresent()){
+            movieList = optionalMovieList.get();
+            movieList.setName(movie.getName());
+            movieList.setCategory(movie.getCategory());
+            movieList.setDescription(movie.getDescription());
+        }else{
+            movieList = new MovieList(movie.getName(), movie.getDescription(), movie.getCategory());
+        }
+        movieListRepository.save(movieList);
     }
 
     @Override
