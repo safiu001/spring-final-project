@@ -9,6 +9,7 @@ import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -33,6 +34,7 @@ class AuthControllerTest {
     private DataSource dataSource;
 
     @Test
+    @WithMockUser
     void testAllEndPoints() throws Exception {
         String[] urls = {"/accessDenied", "/registerForm", "/customLoginForm"};
         for(String url:urls)
@@ -40,6 +42,7 @@ class AuthControllerTest {
     }
 
     @Test
+    @WithMockUser
     void registerTheUser() throws Exception {
         UserModel user = new UserModel("andy", "Andy", "Bernard", "andy123");
         String postUrl = "/registerTheUser";
