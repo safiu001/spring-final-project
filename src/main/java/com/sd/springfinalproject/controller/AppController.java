@@ -6,6 +6,7 @@ import com.sd.springfinalproject.entity.MovieList;
 import com.sd.springfinalproject.entity.Users;
 import com.sd.springfinalproject.service.MovieListService;
 import com.sd.springfinalproject.service.UsersService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +18,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/app")
 public class AppController {
+    @Autowired
     private MovieListService movieListService;
+
+    @Autowired
     private UsersService usersService;
+
     private static final String MOVIE_LIST = "/app/movieList";
     private static final String MOVIE_FORM = "movie-form";
-
-    public AppController(MovieListService movieListService, UsersService usersService){
-        this.movieListService = movieListService;
-        this.usersService = usersService;
-    }
 
     @PostMapping("/successLogin")
     public String successLogin(){
@@ -88,10 +88,6 @@ public class AppController {
         Users user = usersService.findByUsername(username);
 
         List<MovieList> myMovies = user.getMovies();
-
-//        if(myMovies == null || myMovies.isEmpty()){
-//            return ""
-//        }
 
         model.addAttribute("movies", myMovies);
         return "my-list";

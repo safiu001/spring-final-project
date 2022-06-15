@@ -17,8 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class MovieListServiceTest {
@@ -79,6 +78,19 @@ class MovieListServiceTest {
         movieListService.save(movie);
 
         verify(movieListRepository, times(1)).save(any());
+    }
+
+    @Test
+    void saveUpdate() {
+        MovieDto movie = new MovieDto("Harry Potter", "Harry on new Adventure", "Adventure");
+        movie.setId(1);
+        MovieList movieList = new MovieList(1, "Harry Potter", "Harry on new Adventure", "Adventure", null);
+
+        when(movieListRepository.findById(1)).thenReturn(Optional.of(movieList));
+        movieListService.save(movie);
+
+        verify(movieListRepository, times(1)).save(any());
+        assertThat(movieList).isEqualTo(movieListService.findById(1));
     }
 
     @Test
